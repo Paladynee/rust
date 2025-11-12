@@ -1379,6 +1379,18 @@ impl<T: PointeeSized> *const T {
 }
 
 impl<T> *const T {
+    /// Forms a raw slice from a pointer and a length.
+    ///
+    /// For the rest of the documentation, check out [`ptr::slice_from_raw_parts`].
+    ///
+    /// [`ptr::slice_from_raw_parts`]: crate::ptr::slice_from_raw_parts
+    #[must_use]
+    #[inline]
+    #[unstable(feature = "none", issue = "none")]
+    pub const fn into_raw_slice(self, len: usize) -> *const [T] {
+        crate::ptr::slice_from_raw_parts(self, len)
+    }
+
     /// Casts from a type to its maybe-uninitialized version.
     #[must_use]
     #[inline(always)]
