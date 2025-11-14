@@ -260,6 +260,22 @@ impl<T: ?Sized> ManuallyDrop<T> {
         // It is up to the caller to make sure that `slot` isn't dropped again.
         unsafe { ptr::drop_in_place(&mut slot.value) }
     }
+
+    #[unstable(feature = "none", issue = "none")]
+    #[rustc_as_ptr]
+    #[inline]
+    pub const fn as_ptr(&self) -> *const T {
+        // `ManuallyDrop` is `repr(transparent)` and so it has the same layout with T, so we can cast the pointer.
+        self as *const _ as *const T
+    }
+    
+    #[unstable(feature = "none", issue = "none")]
+    #[rustc_as_ptr]
+    #[inline]
+    pub const fn as_mut_ptr(&mut self) -> *mut T {
+        // `ManuallyDrop` is `repr(transparent)` and so it has the same layout with T, so we can cast the pointer.
+        self as *mut _ as *mut T
+    }
 }
 
 #[stable(feature = "manually_drop", since = "1.20.0")]
